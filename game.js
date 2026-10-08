@@ -6,8 +6,9 @@
   const holes = Array.from({ length: R.holes }, (_, i) => {
     const button = document.createElement('button');
     button.className = 'hole';
-    button.setAttribute('aria-label', `${i + 1}번 구멍`);
-    button.innerHTML = `<span class="pit"></span><span class="clip">${moleArt}</span><span class="key">${i + 1}</span>`;
+    button.setAttribute('aria-label', `${i + 1}번 구멍, ${R.keys[i].toUpperCase()} 키`);
+    button.setAttribute('aria-keyshortcuts', R.keys[i]);
+    button.innerHTML = `<span class="pit"></span><span class="clip">${moleArt}</span><span class="key">${i + 1} · ${R.keys[i].toUpperCase()}</span>`;
     button.addEventListener('pointerdown', event => { event.preventDefault(); hit(i); });
     button.addEventListener('click', event => { if (event.detail === 0) hit(i); });
     $('field').append(button);
@@ -16,7 +17,7 @@
   $('miss-dots').innerHTML = '<i></i>'.repeat(R.maxMisses);
   let level = 1, caught = 0, misses = 0, state = 'ready', deadline = 0, nextSpawn = 0;
   let pausedAt = 0, remaining = 60000, best = 1, sound = false, audio;
-  try { best = Math.max(1, Number(localStorage.getItem('mole-garden-best')) || 1); } catch {}
+  try { best = Math.min(R.maxLevel, Math.max(1, Number(localStorage.getItem('mole-garden-best')) || 1)); } catch {}
   function beep(win) {
     if (!sound) return;
     try {
@@ -32,7 +33,7 @@
   }
   function render() {
     $('level').textContent = String(level).padStart(2, '0');
-    $('difficulty').textContent = level < 4 ? '느긋한 산책' : level < 8 ? '바빠진 정원' : '번개 같은 손끝';
+    $('difficulty').textContent = level < 4 ? '빠른 손끝' : level < 8 ? '숨 가쁜 정원' : '번개 같은 손끝';
     $('caught').textContent = caught; $('target').textContent = R.target(level);
     $('misses').textContent = misses; $('time').textContent = Math.max(0, Math.ceil(remaining / 1000));
     $('goal-bar').style.width = `${Math.min(100, caught / R.target(level) * 100)}%`;
@@ -42,7 +43,7 @@
     $('best').innerHTML = `${String(best).padStart(2, '0')} <small>LEVEL</small>`;
   }
   function clearHoles() { holes.forEach(h => { h.active = false; h.hitUntil = 0; h.button.classList.remove('up', 'hit'); h.button.querySelectorAll('.pop').forEach(p => p.remove()); }); }
-  function show(label, title, copy, button, foot = '마우스 클릭 · 화면 터치 · 숫자키 1–7') {
+  function show(label, title, copy, button, foot = '클릭 · 터치 · 키보드 1–5 / Q–T / A–G') {
     $('card-label').textContent = label; $('card-title').textContent = title;
     $('card-copy').textContent = copy; $('start').innerHTML = `${button} <span>↗</span>`;
     $('card-foot').textContent = foot; $('overlay').hidden = false;
@@ -68,6 +69,12 @@
     const pop = document.createElement('span'); pop.className = 'pop'; pop.textContent = '+1'; h.button.append(pop); setTimeout(() => pop.remove(), 500);
     caught++; beep(true);
     if (caught >= R.target(level)) {
+      if (level === R.maxLevel) {
+        state = 'won'; clearHoles(); $('pause').disabled = true;
+        $('card-icon').textContent = '🏆';
+        show('ALL LEVELS COMPLETE!', '10레벨 모두 성공!', `축하해요! 마지막 목표 ${R.target(level)}마리까지 잡았어요. 놓친 두더지 ${misses}/20회로 정원을 완벽하게 지켰습니다.`, '처음부터 다시 도전', '1–10레벨 완료 · 정원의 챔피언');
+        $('status').textContent = '모든 레벨 완료! 정원의 챔피언'; render(); return;
+      }
       state = 'between'; clearHoles(); $('pause').disabled = true; level++;
       if (level > best) { best = level; try { localStorage.setItem('mole-garden-best', best); } catch {} }
       $('card-icon').textContent = '✦';
@@ -121,7 +128,8 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
   document.addEventListener('keydown', event => {
     if (event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
-    if (/^[1-7]$/.test(event.key)) { event.preventDefault(); hit(Number(event.key) - 1); }
+    const keyIndex = R.keys.indexOf(event.key.toLowerCase());
+    if (keyIndex !== -1) { event.preventDefault(); hit(keyIndex); }
     if (event.code === 'Escape') pause();
   });
   $('sound').addEventListener('click', () => { sound = !sound; $('sound').textContent = `소리 ${sound ? 'ON' : 'OFF'}`; $('sound').setAttribute('aria-pressed', sound); $('sound').setAttribute('aria-label', sound ? '효과음 끄기' : '효과음 켜기'); beep(true); });

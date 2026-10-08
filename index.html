@@ -10,19 +10,19 @@
 <body>
   <header class="topbar"><a class="brand" href="./"><span>✿</span> 두더지 정원</a><span class="tag">작은 정원, 빠른 손끝</span><button id="sound" class="icon-button" aria-label="효과음 켜기" aria-pressed="false">소리 OFF</button></header>
   <main>
-    <section class="heading"><div><p class="eyebrow">WHACK-A-MOLE / GARDEN CLUB</p><h1>반가워, 두더지!<span>톡, 잡아볼까요?</span></h1><p class="intro">고개를 내민 두더지를 톡! 숨기 전에 잡아주세요.</p></div><div class="level-badge"><span>LEVEL</span><strong id="level">01</strong><small id="difficulty">느긋한 산책</small></div></section>
+    <section class="heading"><div><p class="eyebrow">WHACK-A-MOLE / GARDEN CLUB</p><h1>반가워, 두더지!<span>톡, 잡아볼까요?</span></h1><p class="intro">고개를 내민 두더지를 톡! 숨기 전에 잡아주세요.</p></div><div class="level-badge"><span>LEVEL / 10</span><strong id="level">01</strong><small id="difficulty">빠른 손끝</small></div></section>
     <section class="stats" aria-label="게임 현황">
       <div class="stat"><span>남은 시간</span><strong><b id="time">60</b><small>초</small></strong><div class="meter"><i id="time-bar"></i></div></div>
-      <div class="stat"><span>이번 레벨</span><strong><b id="caught">0</b><small>/ <em id="target">10</em> 마리</small></strong><div class="meter goal"><i id="goal-bar"></i></div></div>
+      <div class="stat"><span>이번 레벨</span><strong><b id="caught">0</b><small>/ <em id="target">20</em> 마리</small></strong><div class="meter goal"><i id="goal-bar"></i></div></div>
       <div class="stat"><span>놓친 두더지</span><strong><b id="misses">0</b><small>/ 20 회</small></strong><div class="miss-dots" id="miss-dots"></div></div>
     </section>
     <section class="garden" aria-label="두더지 게임판">
       <div class="garden-top"><span><i></i> OUR LITTLE GARDEN</span><span id="status">정원에 오신 걸 환영해요</span></div>
       <div class="field" id="field"></div>
-      <div class="overlay" id="overlay"><div class="overlay-card"><div class="card-icon" id="card-icon">✿</div><p class="eyebrow" id="card-label">READY, SET, TAP!</p><h2 id="card-title">정원으로 놀러 오세요</h2><p id="card-copy">7개의 구멍에 숨은 장난꾸러기들.<br>1분 안에 두더지 10마리를 잡아보세요.</p><button class="primary" id="start">게임 시작 <span>↗</span></button><small id="card-foot">마우스 클릭 · 화면 터치 · 숫자키 1–7</small></div></div>
+      <div class="overlay" id="overlay"><div class="overlay-card"><div class="card-icon" id="card-icon">✿</div><p class="eyebrow" id="card-label">READY, SET, TAP!</p><h2 id="card-title">정원으로 놀러 오세요</h2><p id="card-copy">15개의 구멍에 숨은 장난꾸러기들.<br>1분 안에 두더지 20마리를 잡아보세요.</p><button class="primary" id="start">게임 시작 <span>↗</span></button><small id="card-foot">마우스 클릭 · 화면 터치 · 키보드 1–5 / Q–T / A–G</small></div></div>
       <div class="garden-bottom"><span>✦ 빠르게 잡을수록 다음 레벨에 가까워져요</span><button id="pause" disabled>일시정지 Ⅱ</button></div>
     </section>
-    <section class="bottom"><div class="tip"><span class="tip-icon">☝</span><div><strong>정원의 작은 규칙</strong><p>레벨마다 60초 · 목표 +10% · 점점 빨라지는 두더지<br>놓친 두더지가 20마리면 게임이 끝나요. 빈 구멍은 눌러도 괜찮아요.</p></div></div><div class="record"><span>나의 최고 레벨</span><strong id="best">01 <small>LEVEL</small></strong></div></section>
+    <section class="bottom"><div class="tip"><span class="tip-icon">☝</span><div><strong>정원의 작은 규칙</strong><p>1–10레벨 · 레벨마다 60초 · 목표 +20% · 점점 빨라지는 두더지<br>놓친 두더지가 20마리면 게임이 끝나요. 빈 구멍은 눌러도 괜찮아요.</p></div></div><div class="record"><span>나의 최고 레벨</span><strong id="best">01 <small>LEVEL</small></strong></div></section>
     <p class="footer">잠깐의 휴식에, 한 판의 즐거움. <span>MADE FOR LITTLE BREAKS ✿</span></p>
   </main>
   <script src="rules.js"></script><script src="game.js"></script>
